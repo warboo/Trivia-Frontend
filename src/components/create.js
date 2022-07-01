@@ -3,17 +3,19 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 function Create() {
-    const [category, setCategory] = useState("");
     const [listID, setListID] = useState("");
     const [listIsGenerated, setListIsGenerated] = useState(false);
     // const navigate = useNavigate();
     
     async function onClick(event) {
-        const value = event.target.value;
-        setCategory(value);
+
         const response = await fetch("http://localhost:3000", {
             method: "POST",
-            body: JSON.stringify(category)
+            body: JSON.stringify({category: event.target.value}),
+            headers: { 
+                'Content-Type': 'application/json' 
+                // 'Content-Type': 'application/x-www-form-urlencoded'
+            }
         });
 
         if (!response.ok) {
@@ -25,7 +27,6 @@ function Create() {
         const id = await response.json();
         setListID(id);
         setListIsGenerated(true);
-        setCategory("");
 
         console.log("ID is " + id);
 
@@ -38,12 +39,30 @@ function Create() {
             <h1>Trivia Categories</h1>
 
             <button onClick={onClick} value="random">Random</button>
+            <button onClick={onClick} value="books">Books</button>
+            <button onClick={onClick} value="film">Film</button>
+            <button onClick={onClick} value="cartoon">Cartoon</button>
+
+            <br />
+
+            <button onClick={onClick} value="mythology">Mythology</button>
+            <button onClick={onClick} value="animals">Animals</button>
+            <button onClick={onClick} value="science">Science</button>
+            <button onClick={onClick} value="sports">Sports</button>
+
+            <br />
+
+            <button onClick={onClick} value="computers">Computers</button>
+            <button onClick={onClick} value="mathematics">Mathematics</button>
+            <button onClick={onClick} value="geography">Geography</button>
+            <button onClick={onClick} value="history">History</button>
+
+            <br />
+
             {listIsGenerated && <Link to={`/play/${listID}`}>Play</Link>}
 
-            {/* <button onClick={onClick} value="random">Books</button> */}
-            {/* <button onClick={onClick} value="random">Animals</button> */}
-
-            
+            <hr />
+            {<Link to={`/test/`}>TEST</Link>}
 
         </div>
     );
@@ -52,18 +71,5 @@ function Create() {
 
 export default Create;
 
-/* <div onClick={onClick}><h3>Random</h3></div>
-            <div onClick={onClick}><h3>Books</h3></div>
-            <div onClick={onClick}><h3>Film</h3></div>
-            <div onClick={onClick}><h3>Cartoon</h3></div>
 
-            <div onClick={onClick}><h3>Science & Nature</h3></div>
-            <div onClick={onClick}><h3>Animals</h3></div>
-            <div onClick={onClick}><h3>Computers</h3></div>
-            <div onClick={onClick}><h3>Mathematics</h3></div>
-
-            <div onClick={onClick}><h3>Mythology</h3></div>
-            <div onClick={onClick}><h3>Sports</h3></div>
-            <div onClick={onClick}><h3>Geography</h3></div>
-            <div onClick={onClick}><h3>History</h3></div> */
-
+           
