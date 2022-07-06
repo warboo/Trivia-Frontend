@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
+import { useLocation } from "react-router-dom";
 
 function Play() {
     const params = useParams();
     const navigate = useNavigate();
+
+    const { state } = useLocation();
+    const { category } = state;
 
     const id = params.id.toString();
     const [list, setList] = useState({});
@@ -26,8 +30,6 @@ function Play() {
             setList(list);
             setQueries(list.queries);
             setAnswers(list.queries);
-
-            console.log(list);
         
         }
 
@@ -40,9 +42,7 @@ function Play() {
         return {__html: str};
     }
 
-    async function onSubmit(event) {
-        event.preventDefault();
-
+    async function sendingAnswer() {
         console.log("Answers");
         console.log(answers);
 
@@ -71,11 +71,51 @@ function Play() {
             return;
         }
 
-        console.log("---------Sendback Data---------");
-        console.log(record);
-
         setScore(record.score);
         setCorrect_answers(record.correct_answers);
+
+        return record.score;
+    }
+
+    async function sendingRanking(scoreReturn) {
+        const rankingObject = {
+            category: category,
+            player: list.player,
+            score: scoreReturn
+        };
+
+        console.log("Ranking Object");
+        console.log(rankingObject);
+
+        const response_rank = await fetch(`http://localhost:3000/ranking`, {
+            method: "POST",
+            body: JSON.stringify(rankingObject),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response_rank.ok) {
+            const message = `An error has occurred: ${response_rank.statusText}`;
+            window.alert(message);
+            return;
+        }
+
+        const record_rank = await response_rank.json();
+        if (!record_rank) {
+            window.alert(`Record Rank with category ${category} not found`);
+            return;
+        }
+
+        console.log("Record ID: " + record_rank);
+    }
+
+    async function onSubmit(event) {
+        event.preventDefault();
+        window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+
+        const scoreReturn = await sendingAnswer();
+        sendingRanking(scoreReturn);        
     }
 
     function onChange(event) {
@@ -85,12 +125,12 @@ function Play() {
         setAnswers(arr);
     }
 
-    function onClick(event) {
-        navigate("/");
+    function onClick() {
+        navigate("/home", {state: {userID: null, userName: list.player}});
     }
 
     function showAnswer(correct_answer, user_answer) {
-        if (!score) return;
+        if (score === undefined) return;
         if (correct_answer === user_answer) {
             return <h3 style={{color: "green"}}>CORRECT!</h3>;
         }
@@ -105,58 +145,89 @@ function Play() {
     }
 
     function showLabel(index, correct_answer, choice) {
-        if(!score || (choice !== correct_answer)) {
-            return <label htmlFor={index + "-" + choice} dangerouslySetInnerHTML={createMarkup(choice)}></label>;
+        if(score === undefined || (choice !== correct_answer)) {
+            return <label class="mb-2 ms-2 hover-zoom-btn" htmlFor={index + "-" + choice} dangerouslySetInnerHTML={createMarkup(choice)}></label>;
         }
         else {
-            return <label htmlFor={index + "-" + choice} dangerouslySetInnerHTML={createMarkup(choice)} style={{color: "green", fontWeight: "bold"}} ></label>;
+            return <label class="mb-2 ms-2" htmlFor={index + "-" + choice} dangerouslySetInnerHTML={createMarkup(choice)} style={{color: "green", fontWeight: "bold"}} ></label>;
         }
+    }
+
+    function showChoice(index, choice) {
+        return <input 
+            type="radio" 
+            id={index + "-" + choice} 
+            name={index} 
+            value={choice} 
+            // checked={ answers[{index}] === {choice} }
+            onChange={onChange}
+        />;
     }
 
 
     function showList() {
 
-        // console.log(queries);
-
         return (
             <div>
-                <h1>Player: {list.player}</h1>
-                { score && <h1 style={{color: "RoyalBlue"}}>Score: {score}</h1> }
+                <div class="container">
+                <h3>
+                    <span  role="button" class="badge rounded-pill bg-warning shadow-sm mt-3 mb-3 me-2 hover-zoom-btn ps-3 pe-3">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1946/1946488.png" title="Go to home" onClick={onClick} height="20" />
+                    </span>
 
-                <form onSubmit={onSubmit}>
-                    {queries.map( (item, index) => {
-                        return (
-                            <div>
-                                <h3 dangerouslySetInnerHTML={createMarkup(item.question)}></h3>
+                    <span class="badge rounded-pill bg-secondary shadow-sm mt-3 mb-3 me-2">Player: {list.player}</span>
+                    { score !== undefined && <span class="badge rounded-pill bg-primary shadow-sm me-2">Score: {score}</span> }
+                </h3>
+                </div>
 
-                                {showAnswer(correct_answers[index], answers[index])}
-                                
-                                <p dangerouslySetInnerHTML={createMarkup(item.category)}></p>
-                                <p dangerouslySetInnerHTML={createMarkup(item.difficulty)}></p>
-                                { item.all_choices.map( choice => {
-                                    return (
-                                        <div>
-                                            <input 
-                                                type="radio" 
-                                                id={index + "-" + choice} 
-                                                name={index} 
-                                                value={choice} 
-                                                // checked={ answers[{index}] === {choice} }
-                                                onChange={onChange}
-                                            />
+                <div class="album">
+                  <div class="container">
+                    <div class="row row-cols-1 g-3">
 
-                                            {showLabel(index, correct_answers[index], choice)}
+                    <form onSubmit={onSubmit}>
+                        {queries.map( (item, index) => {
+                            return (
+                                <div class="col mb-4">
+                                    <div class="card shadow-sm">
+                                    <div class="card-header">
+                                        <span class="badge rounded-pill bg-warning shadow-sm bg-opacity-90 mb-2 mt-2 me-2"  dangerouslySetInnerHTML={createMarkup(item.category)}></span>
+                                        <span class="badge rounded-pill bg-secondary shadow-sm bg-opacity-90"  dangerouslySetInnerHTML={createMarkup(item.difficulty)}></span>
+                                    </div>
+                                    <div class="card-body">
+                                        {showAnswer(correct_answers[index], answers[index])}
+                                        <h5 class="card-title mb-3 mt-2" dangerouslySetInnerHTML={createMarkup(item.question)}></h5>
+                                        
+                                        { item.all_choices.map( choice => {
+                                        return (
+                                            <div>
+                                                {showChoice(index, choice)}
+                                                {showLabel(index, correct_answers[index], choice)}
+                                            </div>
+                                        );
 
-                                        </div>
-                                    );
-                                }) }
-                            </div>
-                        );
-                    })}
+                                    }) }
 
-                    {!score && <button type="submit">Submit</button>}
-                    {score && <button type="button" onClick={onClick}>Home</button>}
-                </form>
+                                    </div>
+                                    </div>
+                                    </div>
+                            );
+                        })}
+
+                        {/* {score !== undefined && <button class="btn btn-secondary mb-4 shadow-sm hover-zoom-btn" type="button" onClick={onClick}>Home</button>} */}
+                        {score === undefined && <button class="btn btn-secondary mb-4 shadow-sm hover-zoom-btn" type="submit">Submit</button>}
+                        {score !== undefined && 
+                          <h3>
+                            <span role="button" class="badge rounded-pill bg-warning shadow-sm mb-3 me-2 hover-zoom-btn ps-3 pe-3">
+                              <img src="https://cdn-icons-png.flaticon.com/512/1946/1946488.png" title="Go to home" onClick={onClick} height="20" />
+                            </span>
+                          </h3>
+                        }
+                    </form>
+
+                    </div>
+                  </div>
+                </div>
+                
 
             </div>
         );
@@ -164,9 +235,9 @@ function Play() {
 
     return (
         <div>
-            <h1>Hello from play.js</h1>
+            {/* <h1>Hello from play.js</h1>
             <p>Your ID is {id}</p>
-            <hr />
+            <hr /> */}
             {showList()}
         </div>
     );

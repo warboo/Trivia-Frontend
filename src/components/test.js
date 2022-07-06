@@ -1,46 +1,42 @@
-import React from "react";
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import Offcanvas from 'react-bootstrap/Offcanvas';
 
-function Test() {
+function OffcanvasExample() {
+  return (
+    <>
+        <Navbar key="false" bg="light" expand="lg" className="mb-3">
+          <Container fluid>
 
-    async function onSubmit(event) {
-        event.preventDefault();
-        const data = {
-            name: "qwerty",
-            number: 10
-        }
+            <Navbar.Brand href="/">
+                <img style={{"width" : 10 + '%'}} src="https://cdn-icons-png.flaticon.com/512/3445/3445929.png"></img>
+                <span class="navbar-brand mb-0 h1">&nbsp; Trivia</span>
+            </Navbar.Brand>
 
-        console.log("Print Data");
-        console.log(data);
+            <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-lg`} />
+            <Navbar.Offcanvas
+              id={`offcanvasNavbar-expand-lg`}
+              aria-labelledby={`offcanvasNavbarLabel-expand-lg`}
+              placement="end"
+            >
+              <Offcanvas.Header closeButton>
+                <Offcanvas.Title id={`offcanvasNavbarLabel-expand-lg`}>Menu</Offcanvas.Title>
+              </Offcanvas.Header>
 
-        await fetch("http://localhost:3000", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: JSON.stringify(data)
-        })
-        .catch(error => {
-            window.alert(error);
-            return;
-        })
-        .then(server_data => {
-            console.log(server_data); // JSON data parsed by `data.json()` call
-        });
-
-        console.log("POST request sent");
-    }
-
-    return (
-        <div>
-            <h1>Welcome to test</h1>
-            <form onSubmit={onSubmit}>
-                <button type="submit">POST</button>
-            </form>
-        </div>
-    );
-
+              <Offcanvas.Body>
+                <Nav className="justify-content-end flex-grow-1 pe-3">
+                  <Nav.Link href="/login">Login</Nav.Link>
+                  <Nav.Link href="/register">Register</Nav.Link>
+                  <Nav.Link href="/logout">Logout</Nav.Link>
+                </Nav>
+                
+              </Offcanvas.Body>
+            </Navbar.Offcanvas>
+          </Container>
+        </Navbar>
+    </>
+  );
 }
-  
 
-export default Test;
+export default OffcanvasExample;

@@ -1,0 +1,41 @@
+body {
+  background-color: #ffffff;
+  background-image: url("https://www.transparenttextures.com/patterns/inspiration-geometry.png");
+}
+
+.login body {
+    display: flex;
+    align-items: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #f5f5f5;
+  }
+  
+  .form-signin {
+    max-width: 330px;
+    padding: 15px;
+  }
+  
+  .form-signin .form-floating:focus-within {
+    z-index: 2;
+  }
+  
+  .form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  
+  .form-signin input[type="text"] {
+    margin-bottom: 10px;
+  }
+
+  /* CARD */
+
+  .hover-zoom:hover {
+    transform: scale(1.05);
+  }
+
+  .hover-zoom-btn:hover {
+    transform: scale(1.1);
+  }
