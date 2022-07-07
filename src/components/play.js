@@ -18,7 +18,7 @@ function Play() {
 
     useEffect(() => {
         async function getList() {
-            const response = await fetch(`http://localhost:3000/lists/${id}`);
+            const response = await fetch(`https://enigmatic-falls-42765.herokuapp.com/lists/${id}`);
         
             if (!response.ok) {
                 const message = `An error occurred: ${response.statusText}`;
@@ -48,7 +48,7 @@ function Play() {
             answers: answers
         };
 
-        const response = await fetch(`http://localhost:3000/lists/${id}`, {
+        const response = await fetch(`https://enigmatic-falls-42765.herokuapp.com/lists/${id}`, {
             method: "POST",
             body: JSON.stringify(answersObject),
             headers: {
@@ -81,7 +81,7 @@ function Play() {
             score: scoreReturn
         };
 
-        const response_rank = await fetch(`http://localhost:3000/ranking`, {
+        const response_rank = await fetch(`https://enigmatic-falls-42765.herokuapp.com/ranking`, {
             method: "POST",
             body: JSON.stringify(rankingObject),
             headers: {

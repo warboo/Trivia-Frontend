@@ -6,8 +6,8 @@ function Ranking(props) {
 
     useEffect(() => {
         async function getRanking() {
-            const response = await fetch(`http://localhost:3000/ranking/${category}`);
-        
+            const response = await fetch(`https://enigmatic-falls-42765.herokuapp.com/ranking/${category}`);
+
             if (!response.ok) {
               const message = `An error occurred: ${response.statusText}`;
               window.alert(message);

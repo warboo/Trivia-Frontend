@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Card from "./card";
 import EnterNameModal from "./enter-name-modal";
 

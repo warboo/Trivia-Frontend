@@ -21,7 +21,7 @@ function Create() {
 
         axios({
             method: 'post',
-            url: "http://localhost:3000",
+            url: "https://enigmatic-falls-42765.herokuapp.com",
             data: {
                 category: (event.target.value ? event.target.value : event.target.name), 
                 player: userName
@@ -44,10 +44,6 @@ function Create() {
         if (listCategory !== "")
           navigate(`/play/${listID}`, {state: { category: listCategory }});
     }, [listCategory]);
-
-    function play_onClick() {
-        navigate(`/play/${listID}`, {state: { category: listCategory }});
-    }
 
     return (
         
