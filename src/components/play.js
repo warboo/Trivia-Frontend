@@ -43,8 +43,6 @@ function Play() {
     }
 
     async function sendingAnswer() {
-        console.log("Answers");
-        console.log(answers);
 
         const answersObject = {
             answers: answers
@@ -54,7 +52,6 @@ function Play() {
             method: "POST",
             body: JSON.stringify(answersObject),
             headers: {
-                // 'Content-Type':  'application/x-www-form-urlencoded'
                 'Content-Type': 'application/json'
             }
         });
@@ -84,9 +81,6 @@ function Play() {
             score: scoreReturn
         };
 
-        console.log("Ranking Object");
-        console.log(rankingObject);
-
         const response_rank = await fetch(`http://localhost:3000/ranking`, {
             method: "POST",
             body: JSON.stringify(rankingObject),
@@ -107,7 +101,6 @@ function Play() {
             return;
         }
 
-        console.log("Record ID: " + record_rank);
     }
 
     async function onSubmit(event) {
@@ -159,7 +152,6 @@ function Play() {
             id={index + "-" + choice} 
             name={index} 
             value={choice} 
-            // checked={ answers[{index}] === {choice} }
             onChange={onChange}
         />;
     }
@@ -213,7 +205,6 @@ function Play() {
                             );
                         })}
 
-                        {/* {score !== undefined && <button class="btn btn-secondary mb-4 shadow-sm hover-zoom-btn" type="button" onClick={onClick}>Home</button>} */}
                         {score === undefined && <button class="btn btn-secondary mb-4 shadow-sm hover-zoom-btn" type="submit">Submit</button>}
                         {score !== undefined && 
                           <h3>
@@ -235,9 +226,6 @@ function Play() {
 
     return (
         <div>
-            {/* <h1>Hello from play.js</h1>
-            <p>Your ID is {id}</p>
-            <hr /> */}
             {showList()}
         </div>
     );

@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import { Link } from "react-router-dom";
 import Card from "./card";
 import EnterNameModal from "./enter-name-modal";
 
 function Home() {
 
-    const navigate = useNavigate();
     const [ showEnterNameModal, setShowEnterNameModal ] = useState(false);
     
     function onClick() {
         setShowEnterNameModal(true);
-        // navigate("/enter-name");
     }
 
     const delay = ms => new Promise(
@@ -19,12 +16,11 @@ function Home() {
     );
 
     useEffect(() => {
-        async function autoNavigate() {
+        async function autoShowModal() {
             await delay(5000);
             setShowEnterNameModal(true);
-            // navigate("/enter-name");
          }
-         autoNavigate();
+         autoShowModal();
     }, []);
     
 
@@ -60,17 +56,11 @@ function Home() {
                     <Card value="geography" label="Geography" onClick={onClick} />
                     <Card value="history" label="History" onClick={onClick} />
 
-            <br />
+                    <br />
                 </div>
 
             </div>
         </div>
-
-            
-            
-
-            {/* <hr />
-            {<Link to={`/test/`}>TEST</Link>} */}
 
         </div>
     );

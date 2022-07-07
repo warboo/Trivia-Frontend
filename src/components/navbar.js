@@ -1,4 +1,3 @@
-import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
@@ -8,39 +7,35 @@ function OffcanvasExample() {
   return (
     <>
       
-        <Navbar key="false" bg="light" expand="lg" className="mb-3">
-        <div className="container">
-          {/* <Container fluid> */}
+      <Navbar key="false" bg="light" expand="lg" className="mb-3">
+      <div className="container">
 
-            <Navbar.Brand href="/">
-                {/* <img style={{"width" : 8 + '%', "transform": "scaleX(-1)"}} src="https://cdn-icons-png.flaticon.com/512/3187/3187541.png"></img> */}
-                <img style={{"width" : 8 + '%'}} src={process.env.PUBLIC_URL+"image/brain.png"}></img>
-                <span class="navbar-brand mb-0 h1">&nbsp; Trivia</span>
-            </Navbar.Brand>
+          <Navbar.Brand href="/">
+              <img style={{"width" : 8 + '%'}} src={process.env.PUBLIC_URL+"image/brain.png"}></img>
+              <span class="navbar-brand mb-0 h1">&nbsp; Trivia</span>
+          </Navbar.Brand>
 
-            <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-lg`} />
-            <Navbar.Offcanvas
-              id={`offcanvasNavbar-expand-lg`}
-              aria-labelledby={`offcanvasNavbarLabel-expand-lg`}
-              placement="end"
-            >
-              <Offcanvas.Header closeButton>
-                <Offcanvas.Title id={`offcanvasNavbarLabel-expand-lg`}>Menu</Offcanvas.Title>
-              </Offcanvas.Header>
+          <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-lg`} />
+          <Navbar.Offcanvas
+            id={`offcanvasNavbar-expand-lg`}
+            aria-labelledby={`offcanvasNavbarLabel-expand-lg`}
+            placement="end"
+          >
+            <Offcanvas.Header closeButton>
+              <Offcanvas.Title id={`offcanvasNavbarLabel-expand-lg`}>Menu</Offcanvas.Title>
+            </Offcanvas.Header>
 
-              <Offcanvas.Body>
-                <Nav className="justify-content-end flex-grow-1 pe-3">
-                  {/* <Nav.Link className="text-muted" href="/login">Login</Nav.Link> */}
-                  {/* <Nav.Link className="text-muted" href="/register">Register</Nav.Link> */}
-                  <Nav.Link className="text-muted" href="/enter-name">Login</Nav.Link>
-                  <Nav.Link className="text-muted" href="/">Logout</Nav.Link>
-                </Nav>
-                
-              </Offcanvas.Body>
-            </Navbar.Offcanvas>
-          {/* </Container> */}
-          </div>
-        </Navbar>
+            <Offcanvas.Body>
+              <Nav className="justify-content-end flex-grow-1 pe-3">
+                <Nav.Link className="text-muted" href="/enter-name">Login</Nav.Link>
+                <Nav.Link className="text-muted" href="/">Logout</Nav.Link>
+              </Nav>
+              
+            </Offcanvas.Body>
+          </Navbar.Offcanvas>
+
+        </div>
+      </Navbar>
         
     </>
   );
