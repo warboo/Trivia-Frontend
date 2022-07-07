@@ -24,7 +24,7 @@ function Card (props) {
                   {isGenerated && <button type="button" class="btn btn-sm btn-outline-secondary" disabled>Select</button>}
                   {!isGenerated && <button type="button" class="btn btn-sm btn-outline-secondary" disabled>Start</button>}
                   {isGenerated && <button type="button" class="btn btn-sm btn-success hover-zoom-btn" onClick={play_onClick}>Start</button>} */}
-                  <button type="button" class="btn btn-sm btn-warning hover-zoom-btn ps-3 pe-3 rounded-pill" onClick={onClick} value={value}>Play</button>
+                  <button type="button" class="btn btn-sm btn-warning hover-zoom-btn ps-3 pe-3 rounded-pill shadow-sm" onClick={onClick} value={value}>Play</button>
                 </div>
 
                 {isLoading && 

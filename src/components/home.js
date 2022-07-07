@@ -1,14 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // import { Link } from "react-router-dom";
 import Card from "./card";
+import EnterNameModal from "./enter-name-modal";
 
 function Home() {
 
     const navigate = useNavigate();
+    const [ showEnterNameModal, setShowEnterNameModal ] = useState(false);
     
     function onClick() {
-        navigate("/enter-name");
+        setShowEnterNameModal(true);
+        // navigate("/enter-name");
     }
 
     const delay = ms => new Promise(
@@ -18,7 +21,8 @@ function Home() {
     useEffect(() => {
         async function autoNavigate() {
             await delay(5000);
-            navigate("/enter-name");
+            setShowEnterNameModal(true);
+            // navigate("/enter-name");
          }
          autoNavigate();
     }, []);
@@ -27,6 +31,7 @@ function Home() {
     return (
         <div>
 
+        { showEnterNameModal && <EnterNameModal /> }
         <section class="py-5 mt-5 text-center container bg-warning rounded bg-opacity-50">
             <div class="row py-lg-6">
                 <div class="col-lg-7 col-md-8 mx-auto text-dark">
