@@ -21,7 +21,7 @@ function Create() {
 
         axios({
             method: 'post',
-            url: "https://enigmatic-falls-42765.herokuapp.com",
+            url: process.env.REACT_APP_BACKEND,
             data: {
                 category: (event.target.value ? event.target.value : event.target.name), 
                 player: userName
