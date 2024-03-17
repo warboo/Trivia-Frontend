@@ -1,3 +1,6 @@
+> [!NOTE]
+> The backend spins down after inactivity, causing a couple of minutes delay.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
